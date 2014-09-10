@@ -16,7 +16,7 @@ api_start2	：艦娘・装備固有データその他
 		api_cnum		：艦番
 		api_enqflg		：
 		api_afterlv		：改装Lv
-		api_aftershipid	：改装後ID
+		api_aftershipid	：改装後ID 文字列
 		api_taik		：耐久
 		api_souk		：装甲
 		api_tous		：搭載？
@@ -75,6 +75,8 @@ api_start2	：艦娘・装備固有データその他
 		api_scnt		：入渠時間係数
 		api_kcnt		：
 		api_equip_type	：装備可能カテゴリのフラグ
+							＊データと直接的関係はないが、このオブジェクトの子は"1"といった数字から始まる名前を持っている。
+							　この名前は規約違反であるため、正規のjsonパーサでは読み込むことができないので注意すること。
 	
 	api_mst_slotitem	：装備データ
 		api_id			：装備ID
