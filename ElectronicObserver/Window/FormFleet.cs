@@ -495,7 +495,7 @@ namespace ElectronicObserver.Window {
 			
 			ConfigurationChanged();
 			MainFontColor = Color.FromArgb( 0x00, 0x00, 0x00 );
-			SubFontColor = Color.FromArgb( 0x88, 0x88, 0x88 );
+			SubFontColor = Color.FromArgb( 0x44, 0x44, 0x44 );
 
 
 			//ui init
