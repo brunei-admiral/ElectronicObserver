@@ -191,13 +191,16 @@ namespace ElectronicObserver.Window {
 
 				Name = new Label();
 				Name.SuspendLayout();
-				Name.Text = "*nothing*";
 				Name.Anchor = AnchorStyles.Left;
 				Name.Font = parent.MainFont;
 				Name.ForeColor = parent.MainFontColor;
 				Name.Padding = new Padding( 0, 1, 0, 1 );
 				Name.Margin = new Padding( 2, 0, 2, 0 );
 				Name.AutoSize = true;
+				Name.Text = "Bismarck drei";	// 現時点で最長の艦名
+				Name.AutoSize = false;
+				Name.Height -= 4;	// テーブル線の分の余裕を作る
+				Name.Text = "*nothing*";
 				Name.Visible = false;
 				Name.Cursor = Cursors.Help;
 				Name.MouseDown += Name_MouseDown;
