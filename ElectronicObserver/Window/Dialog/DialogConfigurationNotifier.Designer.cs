@@ -37,6 +37,7 @@
 			this.ImagePathSearch = new System.Windows.Forms.Button();
 			this.ImagePath = new System.Windows.Forms.TextBox();
 			this.GroupDialog = new System.Windows.Forms.GroupBox();
+			this.ShowWithActivation = new System.Windows.Forms.CheckBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.DrawsMessage = new System.Windows.Forms.CheckBox();
 			this.HasFormBorder = new System.Windows.Forms.CheckBox();
@@ -71,7 +72,7 @@
 			this.DialogOpenSound = new System.Windows.Forms.OpenFileDialog();
 			this.DialogOpenImage = new System.Windows.Forms.OpenFileDialog();
 			this.ToolTipText = new System.Windows.Forms.ToolTip(this.components);
-			this.ShowWithActivation = new System.Windows.Forms.CheckBox();
+			this.LoopsSound = new System.Windows.Forms.CheckBox();
 			this.GroupSound.SuspendLayout();
 			this.GroupImage.SuspendLayout();
 			this.GroupDialog.SuspendLayout();
@@ -107,6 +108,7 @@
 			// 
 			// GroupSound
 			// 
+			this.GroupSound.Controls.Add(this.LoopsSound);
 			this.GroupSound.Controls.Add(this.PlaysSound);
 			this.GroupSound.Controls.Add(this.SoundPathSearch);
 			this.GroupSound.Controls.Add(this.SoundPath);
@@ -248,6 +250,17 @@
 			this.GroupDialog.TabIndex = 3;
 			this.GroupDialog.TabStop = false;
 			this.GroupDialog.Text = "通知ダイアログ";
+			// 
+			// ShowWithActivation
+			// 
+			this.ShowWithActivation.AutoSize = true;
+			this.ShowWithActivation.Location = new System.Drawing.Point(90, 22);
+			this.ShowWithActivation.Name = "ShowWithActivation";
+			this.ShowWithActivation.Size = new System.Drawing.Size(151, 19);
+			this.ShowWithActivation.TabIndex = 1;
+			this.ShowWithActivation.Text = "表示時にアクティベートする";
+			this.ToolTipText.SetToolTip(this.ShowWithActivation, "表示時にダイアログをアクティブにします。\r\n無効にすると操作を妨げない代わりにダイアログが隠れやすくなります。");
+			this.ShowWithActivation.UseVisualStyleBackColor = true;
 			// 
 			// label4
 			// 
@@ -647,16 +660,15 @@
 			this.ToolTipText.InitialDelay = 500;
 			this.ToolTipText.ReshowDelay = 100;
 			// 
-			// ShowWithActivation
+			// LoopsSound
 			// 
-			this.ShowWithActivation.AutoSize = true;
-			this.ShowWithActivation.Location = new System.Drawing.Point(90, 22);
-			this.ShowWithActivation.Name = "ShowWithActivation";
-			this.ShowWithActivation.Size = new System.Drawing.Size(151, 19);
-			this.ShowWithActivation.TabIndex = 1;
-			this.ShowWithActivation.Text = "表示時にアクティベートする";
-			this.ToolTipText.SetToolTip(this.ShowWithActivation, "表示時にダイアログをアクティブにします。\r\n無効にすると操作を妨げない代わりにダイアログが隠れやすくなります。");
-			this.ShowWithActivation.UseVisualStyleBackColor = true;
+			this.LoopsSound.AutoSize = true;
+			this.LoopsSound.Location = new System.Drawing.Point(90, 22);
+			this.LoopsSound.Name = "LoopsSound";
+			this.LoopsSound.Size = new System.Drawing.Size(98, 19);
+			this.LoopsSound.TabIndex = 3;
+			this.LoopsSound.Text = "ループ再生する";
+			this.LoopsSound.UseVisualStyleBackColor = true;
 			// 
 			// DialogConfigurationNotifier
 			// 
@@ -746,5 +758,6 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.ToolTip ToolTipText;
 		private System.Windows.Forms.CheckBox ShowWithActivation;
+		private System.Windows.Forms.CheckBox LoopsSound;
 	}
 }

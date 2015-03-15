@@ -505,6 +505,8 @@ namespace ElectronicObserver.Utility {
 				public string SoundPath { get; set; }
 
 				public bool PlaysSound { get; set; }
+				
+				public bool LoopsSound { get; set; }
 
 				public bool DrawsMessage { get; set; }
 
@@ -536,6 +538,7 @@ namespace ElectronicObserver.Utility {
 					DrawsImage = false;
 					SoundPath = "";
 					PlaysSound = false;
+					LoopsSound = false;
 					DrawsMessage = true;
 					ClosingInterval = 10000;
 					AccelInterval = 0;

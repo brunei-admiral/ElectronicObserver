@@ -76,6 +76,7 @@ namespace ElectronicObserver.Notifier {
 
 			IsEnabled = config.IsEnabled;
 			PlaysSound = config.PlaysSound;
+			LoopsSound = config.LoopsSound;
 			ShowsDialog = config.ShowsDialog;
 			AccelInterval = config.AccelInterval;
 
@@ -105,6 +106,7 @@ namespace ElectronicObserver.Notifier {
 				DisposeSound();
 				Sound = new SoundPlayer( path );
 				SoundPath = path;
+				DialogData.CloseCallback = () => Sound.Stop();
 
 				return true;
 
@@ -125,7 +127,10 @@ namespace ElectronicObserver.Notifier {
 			try {
 
 				if ( Sound != null && PlaysSound ) {
-					Sound.Play();
+					if ( LoopsSound && ShowsDialog )
+						Sound.PlayLooping();
+					else
+						Sound.Play();
 				}
 
 			} catch ( Exception ex ) {
@@ -174,6 +179,7 @@ namespace ElectronicObserver.Notifier {
 
 			DialogData.ApplyToConfiguration( config );
 			config.PlaysSound = PlaysSound;
+			config.LoopsSound = LoopsSound;
 			config.SoundPath = SoundPath;
 			config.IsEnabled = IsEnabled;
 			config.ShowsDialog = ShowsDialog;

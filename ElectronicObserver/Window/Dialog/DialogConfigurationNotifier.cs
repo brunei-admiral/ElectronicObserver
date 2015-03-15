@@ -40,6 +40,7 @@ namespace ElectronicObserver.Window.Dialog {
 			IsEnabled.Checked = notifier.IsEnabled;
 
 			PlaysSound.Checked = notifier.PlaysSound;
+			LoopsSound.Checked = notifier.LoopsSound;
 			SoundPath.Text = notifier.SoundPath;
 			
 			DrawsImage.Checked = notifier.DialogData.DrawsImage;
@@ -226,6 +227,7 @@ namespace ElectronicObserver.Window.Dialog {
 			_notifier.IsEnabled = IsEnabled.Checked;
 
 			_notifier.PlaysSound = PlaysSound.Checked;
+			_notifier.LoopsSound = LoopsSound.Checked;
 			_notifier.DialogData.DrawsImage = DrawsImage.Checked;
 
 			_notifier.ShowsDialog = ShowsDialog.Checked;

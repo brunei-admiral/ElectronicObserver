@@ -143,6 +143,11 @@ namespace ElectronicObserver.Window.Dialog {
 			}
 		}
 
+		private void DialogNotifier_FormClosed( object sender, FormClosedEventArgs e ) {
+			if ( DialogData.CloseCallback != null )
+				DialogData.CloseCallback();
+		}
+
 
 		private void CloseTimer_Tick( object sender, EventArgs e ) {
 			Close();

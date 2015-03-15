@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ElectronicObserver.Notifier {
 
@@ -88,6 +89,11 @@ namespace ElectronicObserver.Notifier {
 		/// </summary>
 		public Color BackColor { get; set; }
 
+		/// <summary>
+		/// 通知終了時コールバック
+		/// </summary>
+		public MethodInvoker CloseCallback { get; set; }
+
 
 		public NotifierDialogData() {
 
@@ -112,6 +118,7 @@ namespace ElectronicObserver.Notifier {
 			ShowWithActivation = config.ShowWithActivation;
 			ForeColor = config.ForeColor;
 			BackColor = config.BackColor;
+			CloseCallback = null;
 		}
 
 
