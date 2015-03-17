@@ -18,6 +18,7 @@ namespace ElectronicObserver.Window.Dialog {
 	public partial class DialogConfiguration : Form {
 		public DialogConfiguration() {
 			InitializeComponent();
+
 		}
 
 		public DialogConfiguration( Configuration.ConfigurationData config )
@@ -342,7 +343,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 				if ( changed ) {
 					APIObserver.Instance.Stop();
-					APIObserver.Instance.Start( config.Connection.Port );
+					APIObserver.Instance.Start( config.Connection.Port, this );
 				}
 			}
 
