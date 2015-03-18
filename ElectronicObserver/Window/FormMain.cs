@@ -305,6 +305,17 @@ namespace ElectronicObserver.Window {
 						MainDockPanel.Contents.First().DockHandler.Activate();
 					//*/
 
+					foreach ( var p in MainDockPanel.Panes ) {
+						if ( p.Contents.Count > 1 ) {
+							foreach ( var x in p.Contents ) {
+								if ( x.DockHandler.DockState != DockState.Hidden ) {
+									x.DockHandler.Activate();
+									break;
+								}
+							}
+						}
+					}
+
 				} else {
 
 					foreach ( var f in SubForms )
