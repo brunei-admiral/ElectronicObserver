@@ -282,7 +282,7 @@ namespace ElectronicObserver.Window.Dialog {
 
 			//[起動と終了]
 			Life_ConfirmOnClosing.Checked = config.Life.ConfirmOnClosing;
-			Life_TopMost.Checked = config.Life.TopMost;
+			Life_TopMost.Checked = this.TopMost = config.Life.TopMost;		//メインウィンドウに隠れないように
 			Life_LayoutFilePath.Text = config.Life.LayoutFilePath;
 			Life_CheckUpdateInformation.Checked = config.Life.CheckUpdateInformation;
 
@@ -291,6 +291,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			FormFleet_ShowAircraft.Checked = config.FormFleet.ShowAircraft;
 			FormFleet_SearchingAbilityMethod.SelectedIndex = config.FormFleet.SearchingAbilityMethod;
+			FormFleet_IsScrollable.Checked = config.FormFleet.IsScrollable;
+			FormFleet_FixShipNameWidth.Checked = config.FormFleet.FixShipNameWidth;
 
 			FormQuest_ShowRunningOnly.Checked = config.FormQuest.ShowRunningOnly;
 			FormQuest_ShowOnce.Checked = config.FormQuest.ShowOnce;
@@ -308,6 +310,7 @@ namespace ElectronicObserver.Window.Dialog {
 			FormBrowser_ScreenShotFormat_PNG.Checked = config.FormBrowser.ScreenShotFormat == 2;
 			FormBrowser_ScreenShotPath.Text = config.FormBrowser.ScreenShotPath;
 			FormBrowser_ConfirmAtRefresh.Checked = config.FormBrowser.ConfirmAtRefresh;
+			FormBrowser_AppliesStyleSheet.Checked = config.FormBrowser.AppliesStyleSheet;
 
 			//finalize
 			UpdateParameter();
@@ -377,6 +380,8 @@ namespace ElectronicObserver.Window.Dialog {
 
 			config.FormFleet.ShowAircraft = FormFleet_ShowAircraft.Checked;
 			config.FormFleet.SearchingAbilityMethod = FormFleet_SearchingAbilityMethod.SelectedIndex;
+			config.FormFleet.IsScrollable = FormFleet_IsScrollable.Checked;
+			config.FormFleet.FixShipNameWidth = FormFleet_FixShipNameWidth.Checked;
 
 			config.FormQuest.ShowRunningOnly = FormQuest_ShowRunningOnly.Checked;
 			config.FormQuest.ShowOnce = FormQuest_ShowOnce.Checked;
@@ -396,6 +401,7 @@ namespace ElectronicObserver.Window.Dialog {
 				config.FormBrowser.ScreenShotFormat = 2;
 			config.FormBrowser.ScreenShotPath = FormBrowser_ScreenShotPath.Text;
 			config.FormBrowser.ConfirmAtRefresh = FormBrowser_ConfirmAtRefresh.Checked;
+			config.FormBrowser.AppliesStyleSheet = FormBrowser_AppliesStyleSheet.Checked;
 
 		}
 

@@ -347,10 +347,21 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int SearchingAbilityMethod { get; set; }
 
+				/// <summary>
+				/// スクロール可能か
+				/// </summary>
+				public bool IsScrollable { get; set; }
+
+				/// <summary>
+				/// 艦名表示の幅を固定するか
+				/// </summary>
+				public bool FixShipNameWidth { get; set; }
 
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 0;
+					IsScrollable = true;
+					FixShipNameWidth = false;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
@@ -389,6 +400,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public bool ShowMonthly { get; set; }
 
+				/// <summary>
+				/// 列の可視性
+				/// </summary>
+				public SerializableList<bool> ColumnFilter { get; set; }
+
 
 				public ConfigFormQuest() {
 					ShowRunningOnly = false;
@@ -396,6 +412,7 @@ namespace ElectronicObserver.Utility {
 					ShowDaily = true;
 					ShowWeekly = true;
 					ShowMonthly = true;
+					ColumnFilter = null;		//実際の初期化は FormQuest で行う
 				}
 			}
 			/// <summary>[任務]ウィンドウ</summary>
