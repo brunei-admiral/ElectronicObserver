@@ -219,7 +219,7 @@ namespace ElectronicObserver.Data {
 									}
 								}
 
-								
+
 							}
 
 
@@ -236,7 +236,7 @@ namespace ElectronicObserver.Data {
 											_members[i] = replacedID;
 										else
 											RemoveShip( i );
-										
+
 										break;
 									}
 								}
@@ -422,8 +422,7 @@ namespace ElectronicObserver.Data {
 		/// </summary>
 		/// <param name="index">計算式。0-2</param>
 		public string GetSearchingAbilityString( int index ) {
-			switch ( index )
-			{
+			switch ( index ) {
 				default:
 				case 0:
 					return Calculator.GetSearchingAbility_Old( this ).ToString();
@@ -488,19 +487,17 @@ namespace ElectronicObserver.Data {
 
 			{	//入渠中
 				long ntime = db.Docks.Values.Max(
-						dock =>
-						{
-							if (dock.State == 1 && fleet.Members.Count((id => id == dock.ShipID)) > 0)
-								return dock.CompletionTime.ToBinary();
+						dock => {
+							if ( dock.State == 1 && fleet.Members.Count( ( id => id == dock.ShipID ) ) > 0 )
+								return dock.CompletionTime.Ticks;
 							else return 0;
 						}
 						);
 
-				if (ntime > 0)
-				{	//入渠中
+				if (ntime > 0) {	//入渠中
 
-					timer = DateTime.FromBinary(ntime);
-					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString(timer);
+					timer = new DateTime( ntime );
+					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
 
 					tooltip.SetToolTip(label, "完了日時 : " + timer);
