@@ -496,7 +496,8 @@
             "左下",
             "下",
             "右下",
-            "手動設定"});
+            "手動(絶対)",
+            "手動(相対)"});
 			this.Alignment.Location = new System.Drawing.Point(55, 47);
 			this.Alignment.Name = "Alignment";
 			this.Alignment.Size = new System.Drawing.Size(121, 23);
