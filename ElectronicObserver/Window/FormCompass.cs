@@ -462,6 +462,8 @@ namespace ElectronicObserver.Window {
 
 								TextEventKind.ForeColor = getColorFromEventKind( compass.EventKind );
 							}
+							if ( compass.EventID == 5 )
+								TextEventKind.ForeColor = Color.DarkRed;
 							UpdateEnemyFleet( compass.EnemyFleetID );
 							break;
 
