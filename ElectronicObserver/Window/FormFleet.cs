@@ -751,8 +751,11 @@ namespace ElectronicObserver.Window {
 				for ( int i = 0; i < ControlMember.Length; i++ ) {
 					ControlMember[i].Equipments.ShowAircraft = showAircraft;
 					if ( fixShipNameWidth ) {
+						var name = ControlMember[i].Name.Text;
+						ControlMember[i].Name.AutoSize = true;
+						ControlMember[i].Name.Text = "Bismarck drei";	// 現時点で最長の艦名
 						ControlMember[i].Name.AutoSize = false;
-						ControlMember[i].Name.Size = new Size( 40, 20 );
+						ControlMember[i].Name.Text = name;
 					} else {
 						ControlMember[i].Name.AutoSize = true;
 					}
