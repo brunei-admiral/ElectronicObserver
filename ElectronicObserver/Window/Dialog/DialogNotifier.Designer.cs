@@ -44,9 +44,10 @@
 			this.Text = "通知";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DialogNotifier_FormClosed);
 			this.Load += new System.EventHandler(this.DialogNotifier_Load);
-			this.Click += new System.EventHandler(this.DialogNotifier_Click);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.DialogNotifier_Paint);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DialogNotifier_KeyDown);
+			this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.DialogNotifier_MouseClick);
+			this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DialogNotifier_MouseClick);
 			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DialogNotifier_MouseMove);
 			this.ResumeLayout(false);
 

@@ -53,6 +53,11 @@ namespace ElectronicObserver.Notifier {
 		/// </summary>
 		public bool CloseOnMouseMove { get; set; }
 
+		/// <summary>
+		/// 閉じるマウスボタンのフラグ
+		/// </summary>
+		public NotifierDialogClickFlags ClickFlag { get; set; }
+
 
 		/// <summary>
 		/// 通知ダイアログの出現位置設定
@@ -111,6 +116,7 @@ namespace ElectronicObserver.Notifier {
 			DrawsMessage = config.DrawsMessage;
 			ClosingInterval = config.ClosingInterval;
 			CloseOnMouseMove = config.CloseOnMouseMove;
+			ClickFlag = config.ClickFlag;
 			Alignment = config.Alignment;
 			Location = config.Location;
 			HasFormBorder = config.HasFormBorder;
@@ -177,6 +183,7 @@ namespace ElectronicObserver.Notifier {
 			config.DrawsMessage = DrawsMessage;
 			config.ClosingInterval = ClosingInterval;
 			config.CloseOnMouseMove = CloseOnMouseMove;
+			config.ClickFlag = ClickFlag;
 			config.Alignment = Alignment;
 			config.Location = Location;
 			config.HasFormBorder = HasFormBorder;
@@ -232,4 +239,22 @@ namespace ElectronicObserver.Notifier {
 		CustomRelative,
 	}
 
+
+	/// <summary>
+	/// 通知ダイアログのクリック種別を示します。
+	/// </summary>
+	[Flags]
+	public enum NotifierDialogClickFlags {
+
+		None = 0x0,
+		Left = 0x1,
+		LeftDouble = 0x2,
+		Right = 0x4,
+		RightDouble = 0x8,
+		Middle = 0x10,
+		MiddleDouble = 0x20,
+
+		/// <summary>最高位ビット</summary>
+		HighestBit = 6,
+	}
 }
