@@ -414,15 +414,16 @@ namespace ElectronicObserver.Window {
 
 			try {
 
-				using ( var stream = File.Open( path, FileMode.Create ) ) {
-					using ( var archive = new ZipArchive( stream, ZipArchiveMode.Create ) ) {
+				CreateParentDirectories( path );
 
-						using ( var layoutstream = archive.CreateEntry( "SubWindowLayout.xml" ).Open() ) {
-							SaveSubWindowsLayout( layoutstream );
-						}
-						using ( var placementstream = archive.CreateEntry( "WindowPlacement.xml" ).Open() ) {
-							WindowPlacementManager.SaveWindowPlacement( this, placementstream );
-						}
+				using ( var stream = File.Open( path, FileMode.Create ) )
+				using ( var archive = new ZipArchive( stream, ZipArchiveMode.Create ) ) {
+
+					using ( var layoutstream = archive.CreateEntry( "SubWindowLayout.xml" ).Open() ) {
+						SaveSubWindowsLayout( layoutstream );
+					}
+					using ( var placementstream = archive.CreateEntry( "WindowPlacement.xml" ).Open() ) {
+						WindowPlacementManager.SaveWindowPlacement( this, placementstream );
 					}
 				}
 
@@ -436,7 +437,15 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void CreateParentDirectories( string path ) {
 
+			var parents = Path.GetDirectoryName( path );
+
+			if ( !String.IsNullOrEmpty( parents ) ) {
+				Directory.CreateDirectory( parents );
+			}
+
+		}
 
 
 
