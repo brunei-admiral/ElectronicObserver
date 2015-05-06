@@ -17,7 +17,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static string SoftwareNameJapanese {
 			get {
-				return "七四式電子観測儀";
+				return "私製七四式電子観測儀";
 			}
 		}
 
@@ -26,7 +26,7 @@ namespace ElectronicObserver.Utility {
 		/// </summary>
 		public static string SoftwareNameEnglish {
 			get {
-				return "ElectronicObserver";
+				return "ElectronicObserver(mycustom)";
 			}
 		}
 
