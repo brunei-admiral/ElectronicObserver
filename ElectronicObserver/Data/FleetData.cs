@@ -504,29 +504,6 @@ namespace ElectronicObserver.Data {
 				return FleetStates.NoShip;
 			}
 
-			{	//入渠中
-				long ntime = db.Docks.Values.Max(
-						dock => {
-							if ( dock.State == 1 && fleet.Members.Count( ( id => id == dock.ShipID ) ) > 0 )
-								return dock.CompletionTime.Ticks;
-							else return 0;
-						}
-						);
-
-				if ( ntime > 0 ) {	//入渠中
-
-					timer = new DateTime( ntime );
-					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
-
-					tooltip.SetToolTip( label, "完了日時 : " + timer );
-
-					return FleetStates.Docking;
-				}
-
-			}
-
-
 			if ( fleet.IsInSortie ) {
 
 				//大破出撃中
@@ -548,7 +525,6 @@ namespace ElectronicObserver.Data {
 				}
 
 			}
-
 
 			//遠征中
 			if ( fleet.ExpeditionState != 0 ) {
@@ -585,6 +561,30 @@ namespace ElectronicObserver.Data {
 
 					return FleetStates.AnchorageRepairing;
 				}
+			}
+
+			{	//入渠中
+				long ntime = db.Docks.Values.Max(
+						dock =>
+						{
+							if (dock.State == 1 && fleet.Members.Count((id => id == dock.ShipID)) > 0)
+								return dock.CompletionTime.Ticks;
+							else return 0;
+						}
+						);
+
+				if (ntime > 0)
+				{	//入渠中
+
+					timer = new DateTime(ntime);
+					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString(timer);
+					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
+
+					tooltip.SetToolTip(label, "完了日時 : " + timer);
+
+					return FleetStates.Docking;
+				}
+
 			}
 
 			//疲労
