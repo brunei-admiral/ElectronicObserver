@@ -498,6 +498,7 @@ namespace ElectronicObserver.Data {
 
 			//初期化
 			tooltip.SetToolTip( label, null );
+			label.ForeColor = Color.Black;	// XXX TODO
 			label.BackColor = Color.Transparent;
 
 
@@ -550,6 +551,7 @@ namespace ElectronicObserver.Data {
 			 ) > 0 ) {
 
 				label.Text = "大破艦あり！";
+				label.ForeColor = Color.Crimson;
 				label.ImageIndex = (int)ResourceManager.IconContent.FleetDamaged;
 				//label.BackColor = Color.LightCoral;
 
@@ -584,6 +586,7 @@ namespace ElectronicObserver.Data {
 
 					timer = new DateTime(ntime);
 					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString(timer);
+					label.ForeColor = Color.Crimson;
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
 
 					tooltip.SetToolTip(label, "完了日時 : " + timer);
@@ -603,6 +606,7 @@ namespace ElectronicObserver.Data {
 
 
 					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
+					label.ForeColor = Color.Crimson;
 
 					if ( cond < 20 )
 						label.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
@@ -638,6 +642,7 @@ namespace ElectronicObserver.Data {
 				if ( fuel > 0 || ammo > 0 || bauxite > 0 ) {
 
 					label.Text = "未補給";
+					label.ForeColor = Color.Crimson;
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
 
 					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2} ({3}機)", fuel, ammo, bauxite, aircraft ) );
