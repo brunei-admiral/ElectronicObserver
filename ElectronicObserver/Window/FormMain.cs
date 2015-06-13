@@ -884,6 +884,11 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_Tool_ResourceChart_Click( object sender, EventArgs e ) {
+
+			new Dialog.DialogResourceChart().Show( this );
+
+		}
 
 
 
@@ -1063,6 +1068,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
+		
 
 
 
