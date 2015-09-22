@@ -626,8 +626,7 @@ namespace ElectronicObserver.Data {
 						}
 						);
 
-				if (ntime > 0)
-				{	//入渠中
+				if ( ntime > 0 ) {	//入渠中
 
 					timer = new DateTime(ntime);
 					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString(timer);
@@ -639,6 +638,35 @@ namespace ElectronicObserver.Data {
 					return FleetStates.Docking;
 				}
 
+			}
+
+			//未補給
+			{
+				int fuel = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.FuelMax - ship.Fuel ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
+				int ammo = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.AmmoMax - ship.Ammo ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
+				int aircraft = fleet.MembersInstance.Sum(
+					ship => {
+						if ( ship == null ) return 0;
+						else {
+							int c = 0;
+							for ( int i = 0; i < ship.Slot.Count; i++ ) {
+								c += ship.MasterShip.Aircraft[i] - ship.Aircraft[i];
+							}
+							return c;
+						}
+					} );
+				int bauxite = aircraft * 5;
+
+				if ( fuel > 0 || ammo > 0 || bauxite > 0 ) {
+
+					label.Text = "未補給";
+					label.ForeColor = Color.Crimson;
+					label.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
+
+					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2} ({3}機)", fuel, ammo, bauxite, aircraft ) );
+
+					return FleetStates.NotReplenished;
+				}
 			}
 
 			//疲労
@@ -664,35 +692,6 @@ namespace ElectronicObserver.Data {
 					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}", timer ) );
 
 					return FleetStates.Tired;
-				}
-			}
-
-			//未補給
-			{
-				int fuel = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.MasterShip.Fuel - ship.Fuel ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
-				int ammo = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.MasterShip.Ammo - ship.Ammo ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
-				int aircraft = fleet.MembersInstance.Sum(
-					ship => {
-						if ( ship == null ) return 0;
-						else {
-							int c = 0;
-							for ( int i = 0; i < ship.Slot.Count; i++ ) {
-								c += ship.MasterShip.Aircraft[i] - ship.Aircraft[i];
-							}
-							return c;
-						}
-					} );
-				int bauxite = aircraft * 5;
-
-				if ( fuel > 0 || ammo > 0 || bauxite > 0 ) {
-
-					label.Text = "未補給";
-					label.ForeColor = Color.Crimson;
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
-
-					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2} ({3}機)", fuel, ammo, bauxite, aircraft ) );
-
-					return FleetStates.NotReplenished;
 				}
 			}
 
