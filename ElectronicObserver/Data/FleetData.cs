@@ -640,6 +640,33 @@ namespace ElectronicObserver.Data {
 
 			}
 
+			//疲労
+			{
+				int cond = fleet.MembersInstance.Min(s => s == null ? 100 : s.Condition);
+
+				if (cond < Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null)
+				{
+
+					timer = (DateTime)fleet.ConditionTime;
+
+
+					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString(timer);
+					label.ForeColor = Color.Crimson;
+
+					if (cond < 20)
+						label.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
+					else if (cond < 30)
+						label.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
+					else
+						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
+
+
+					tooltip.SetToolTip(label, string.Format("回復目安日時: {0}", timer));
+
+					return FleetStates.Tired;
+				}
+			}
+
 			//未補給
 			{
 				int fuel = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.FuelMax - ship.Fuel ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
@@ -666,32 +693,6 @@ namespace ElectronicObserver.Data {
 					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2} ({3}機)", fuel, ammo, bauxite, aircraft ) );
 
 					return FleetStates.NotReplenished;
-				}
-			}
-
-			//疲労
-			{
-				int cond = fleet.MembersInstance.Min( s => s == null ? 100 : s.Condition );
-
-				if ( cond < Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null ) {
-
-					timer = (DateTime)fleet.ConditionTime;
-
-
-					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
-					label.ForeColor = Color.Crimson;
-
-					if ( cond < 20 )
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
-					else if ( cond < 30 )
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
-					else
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
-
-
-					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}", timer ) );
-
-					return FleetStates.Tired;
 				}
 			}
 
