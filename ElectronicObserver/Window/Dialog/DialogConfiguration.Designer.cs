@@ -64,6 +64,8 @@
 			this.Log_LogLevel = new System.Windows.Forms.NumericUpDown();
 			this.label6 = new System.Windows.Forms.Label();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.Control_RecordAutoSaving = new System.Windows.Forms.ComboBox();
+			this.label9 = new System.Windows.Forms.Label();
 			this.Control_ConditionBorder = new System.Windows.Forms.NumericUpDown();
 			this.label7 = new System.Windows.Forms.Label();
 			this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -156,8 +158,8 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
-			this.label9 = new System.Windows.Forms.Label();
-			this.Control_RecordAutoSaving = new System.Windows.Forms.ComboBox();
+			this.Life_ClockFormat = new System.Windows.Forms.ComboBox();
+			this.label24 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -265,6 +267,7 @@
 			this.ToolTipInfo.SetToolTip(this.Connection_RegisterAsSystemProxy, "プロキシをシステムに登録し、自動的に通信できるようにします。\r\nプロキシ設定が不要になりますが、副作用があるため注意してご利用ください。\r\n詳細はオンラインヘルプ" +
         "を参照してください。");
 			this.Connection_RegisterAsSystemProxy.UseVisualStyleBackColor = true;
+			this.Connection_RegisterAsSystemProxy.Visible = false;
 			// 
 			// Connection_OutputConnectionScript
 			// 
@@ -557,10 +560,10 @@
 			this.tabPage3.Controls.Add(this.Log_SaveLogFlag);
 			this.tabPage3.Controls.Add(this.Log_LogLevel);
 			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Location = new System.Drawing.Point(4, 44);
+			this.tabPage3.Location = new System.Drawing.Point(4, 24);
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(456, 233);
+			this.tabPage3.Size = new System.Drawing.Size(456, 253);
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "ログ";
 			this.tabPage3.UseVisualStyleBackColor = true;
@@ -661,13 +664,35 @@
 			this.tabPage4.Controls.Add(this.label9);
 			this.tabPage4.Controls.Add(this.Control_ConditionBorder);
 			this.tabPage4.Controls.Add(this.label7);
-			this.tabPage4.Location = new System.Drawing.Point(4, 44);
+			this.tabPage4.Location = new System.Drawing.Point(4, 24);
 			this.tabPage4.Name = "tabPage4";
 			this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage4.Size = new System.Drawing.Size(456, 233);
+			this.tabPage4.Size = new System.Drawing.Size(456, 253);
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "動作";
 			this.tabPage4.UseVisualStyleBackColor = true;
+			// 
+			// Control_RecordAutoSaving
+			// 
+			this.Control_RecordAutoSaving.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.Control_RecordAutoSaving.FormattingEnabled = true;
+			this.Control_RecordAutoSaving.Items.AddRange(new object[] {
+            "しない",
+            "1時間ごと",
+            "1日ごと"});
+			this.Control_RecordAutoSaving.Location = new System.Drawing.Point(124, 35);
+			this.Control_RecordAutoSaving.Name = "Control_RecordAutoSaving";
+			this.Control_RecordAutoSaving.Size = new System.Drawing.Size(121, 23);
+			this.Control_RecordAutoSaving.TabIndex = 3;
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(6, 38);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(112, 15);
+			this.label9.TabIndex = 2;
+			this.label9.Text = "レコードの自動保存：";
 			// 
 			// Control_ConditionBorder
 			// 
@@ -760,6 +785,8 @@
 			// 
 			// tabPage6
 			// 
+			this.tabPage6.Controls.Add(this.label24);
+			this.tabPage6.Controls.Add(this.Life_ClockFormat);
 			this.tabPage6.Controls.Add(this.Life_ShowStatusBar);
 			this.tabPage6.Controls.Add(this.Life_CheckUpdateInformation);
 			this.tabPage6.Controls.Add(this.Life_LayoutFilePathSearch);
@@ -767,10 +794,10 @@
 			this.tabPage6.Controls.Add(this.label14);
 			this.tabPage6.Controls.Add(this.Life_TopMost);
 			this.tabPage6.Controls.Add(this.Life_ConfirmOnClosing);
-			this.tabPage6.Location = new System.Drawing.Point(4, 24);
+			this.tabPage6.Location = new System.Drawing.Point(4, 44);
 			this.tabPage6.Name = "tabPage6";
 			this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage6.Size = new System.Drawing.Size(456, 253);
+			this.tabPage6.Size = new System.Drawing.Size(456, 233);
 			this.tabPage6.TabIndex = 5;
 			this.tabPage6.Text = "ウィンドウ";
 			this.tabPage6.UseVisualStyleBackColor = true;
@@ -1017,7 +1044,7 @@
 			this.tabPage9.Location = new System.Drawing.Point(4, 22);
 			this.tabPage9.Name = "tabPage9";
 			this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage9.Size = new System.Drawing.Size(442, 201);
+			this.tabPage9.Size = new System.Drawing.Size(442, 221);
 			this.tabPage9.TabIndex = 1;
 			this.tabPage9.Text = "工廠";
 			this.tabPage9.UseVisualStyleBackColor = true;
@@ -1038,7 +1065,7 @@
 			this.tabPage16.Location = new System.Drawing.Point(4, 22);
 			this.tabPage16.Name = "tabPage16";
 			this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage16.Size = new System.Drawing.Size(442, 201);
+			this.tabPage16.Size = new System.Drawing.Size(442, 221);
 			this.tabPage16.TabIndex = 6;
 			this.tabPage16.Text = "司令部";
 			this.tabPage16.UseVisualStyleBackColor = true;
@@ -1060,7 +1087,7 @@
 			this.tabPage10.Location = new System.Drawing.Point(4, 22);
 			this.tabPage10.Name = "tabPage10";
 			this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage10.Size = new System.Drawing.Size(442, 201);
+			this.tabPage10.Size = new System.Drawing.Size(442, 221);
 			this.tabPage10.TabIndex = 2;
 			this.tabPage10.Text = "任務";
 			this.tabPage10.UseVisualStyleBackColor = true;
@@ -1135,7 +1162,7 @@
 			this.tabPage13.Location = new System.Drawing.Point(4, 22);
 			this.tabPage13.Name = "tabPage13";
 			this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage13.Size = new System.Drawing.Size(442, 201);
+			this.tabPage13.Size = new System.Drawing.Size(442, 221);
 			this.tabPage13.TabIndex = 4;
 			this.tabPage13.Text = "グループ";
 			this.tabPage13.UseVisualStyleBackColor = true;
@@ -1177,7 +1204,7 @@
 			this.tabPage12.Location = new System.Drawing.Point(4, 22);
 			this.tabPage12.Name = "tabPage12";
 			this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage12.Size = new System.Drawing.Size(442, 201);
+			this.tabPage12.Size = new System.Drawing.Size(442, 221);
 			this.tabPage12.TabIndex = 3;
 			this.tabPage12.Text = "ブラウザ";
 			this.tabPage12.UseVisualStyleBackColor = true;
@@ -1358,7 +1385,7 @@
 			this.tabPage14.Location = new System.Drawing.Point(4, 22);
 			this.tabPage14.Name = "tabPage14";
 			this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage14.Size = new System.Drawing.Size(442, 201);
+			this.tabPage14.Size = new System.Drawing.Size(442, 221);
 			this.tabPage14.TabIndex = 5;
 			this.tabPage14.Text = "ブラウザ2";
 			this.tabPage14.UseVisualStyleBackColor = true;
@@ -1684,27 +1711,27 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
-			// label9
+			// Life_ClockFormat
 			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(6, 38);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(112, 15);
-			this.label9.TabIndex = 2;
-			this.label9.Text = "レコードの自動保存：";
+			this.Life_ClockFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.Life_ClockFormat.FormattingEnabled = true;
+			this.Life_ClockFormat.Items.AddRange(new object[] {
+            "現在時刻",
+            "演習更新まで",
+            "任務更新まで"});
+			this.Life_ClockFormat.Location = new System.Drawing.Point(81, 135);
+			this.Life_ClockFormat.Name = "Life_ClockFormat";
+			this.Life_ClockFormat.Size = new System.Drawing.Size(121, 23);
+			this.Life_ClockFormat.TabIndex = 7;
 			// 
-			// Control_RecordAutoSaving
+			// label24
 			// 
-			this.Control_RecordAutoSaving.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.Control_RecordAutoSaving.FormattingEnabled = true;
-			this.Control_RecordAutoSaving.Items.AddRange(new object[] {
-            "しない",
-            "1時間ごと",
-            "1日ごと"});
-			this.Control_RecordAutoSaving.Location = new System.Drawing.Point(124, 35);
-			this.Control_RecordAutoSaving.Name = "Control_RecordAutoSaving";
-			this.Control_RecordAutoSaving.Size = new System.Drawing.Size(121, 23);
-			this.Control_RecordAutoSaving.TabIndex = 3;
+			this.label24.AutoSize = true;
+			this.label24.Location = new System.Drawing.Point(8, 138);
+			this.label24.Name = "label24";
+			this.label24.Size = new System.Drawing.Size(67, 15);
+			this.label24.TabIndex = 8;
+			this.label24.Text = "時計表示：";
 			// 
 			// DialogConfiguration
 			// 
@@ -1914,5 +1941,7 @@
 		private System.Windows.Forms.CheckBox FormFleet_ShowAnchorageRepairingTimer;
 		private System.Windows.Forms.ComboBox Control_RecordAutoSaving;
 		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Label label24;
+		private System.Windows.Forms.ComboBox Life_ClockFormat;
 	}
 }

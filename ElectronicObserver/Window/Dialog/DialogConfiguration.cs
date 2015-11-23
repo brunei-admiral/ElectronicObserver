@@ -299,6 +299,7 @@ namespace ElectronicObserver.Window.Dialog {
 			Life_LayoutFilePath.Text = config.Life.LayoutFilePath;
 			Life_CheckUpdateInformation.Checked = config.Life.CheckUpdateInformation;
 			Life_ShowStatusBar.Checked = config.Life.ShowStatusBar;
+			Life_ClockFormat.SelectedIndex = config.Life.ClockFormat;
 
 			//[サブウィンドウ]
 			FormArsenal_ShowShipName.Checked = config.FormArsenal.ShowShipName;
@@ -406,7 +407,9 @@ namespace ElectronicObserver.Window.Dialog {
 				changed |= config.Connection.RegisterAsSystemProxy != Connection_RegisterAsSystemProxy.Checked;
 				config.Connection.RegisterAsSystemProxy = Connection_RegisterAsSystemProxy.Checked;
 
+				changed |= config.Connection.UseUpstreamProxy != Connection_UseUpstreamProxy.Checked;
 				config.Connection.UseUpstreamProxy = Connection_UseUpstreamProxy.Checked;
+				changed |= config.Connection.UpstreamProxyPort != (ushort)Connection_UpstreamProxyPort.Value;
 				config.Connection.UpstreamProxyPort = (ushort)Connection_UpstreamProxyPort.Value;
 
 				if ( changed ) {
@@ -442,6 +445,7 @@ namespace ElectronicObserver.Window.Dialog {
 			config.Life.LayoutFilePath = Life_LayoutFilePath.Text;
 			config.Life.CheckUpdateInformation = Life_CheckUpdateInformation.Checked;
 			config.Life.ShowStatusBar = Life_ShowStatusBar.Checked;
+			config.Life.ClockFormat = Life_ClockFormat.SelectedIndex;
 
 			//[サブウィンドウ]
 			config.FormArsenal.ShowShipName = FormArsenal_ShowShipName.Checked;
