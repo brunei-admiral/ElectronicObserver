@@ -230,7 +230,7 @@ namespace ElectronicObserver.Window {
 				Level.SuspendLayout();
 				Level.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
 				Level.Value = 0;
-				Level.MaximumValue = 150;
+				Level.MaximumValue = ExpTable.ShipMaximumLevel;
 				Level.ValueNext = 0;
 				Level.MainFontColor = parent.MainFontColor;
 				Level.SubFontColor = parent.SubFontColor;
@@ -378,7 +378,7 @@ namespace ElectronicObserver.Window {
 							tip.AppendFormat( "Lv99まで: {0} exp.\r\n", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 99 ), 0 ) );
 
 						} else {
-							tip.AppendFormat( "Lv150まで: {0} exp.\r\n", Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, 150 ), 0 ) );
+							tip.AppendFormat( "Lv{0}まで: {1} exp.\r\n", ExpTable.ShipMaximumLevel, Math.Max( ExpTable.GetExpToLevelShip( ship.ExpTotal, ExpTable.ShipMaximumLevel ), 0 ) );
 
 						}
 
