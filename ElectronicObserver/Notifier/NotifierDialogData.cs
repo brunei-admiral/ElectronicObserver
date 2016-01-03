@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace ElectronicObserver.Notifier {
 
@@ -94,10 +93,14 @@ namespace ElectronicObserver.Notifier {
 		/// </summary>
 		public Color BackColor { get; set; }
 
+
+
 		/// <summary>
-		/// 通知終了時コールバック
+		/// イベント発動時に全ウィンドウを閉じる
 		/// </summary>
-		public MethodInvoker CloseCallback { get; set; }
+		public event EventHandler CloseAll = delegate { };
+
+
 
 
 		public NotifierDialogData() {
@@ -124,7 +127,6 @@ namespace ElectronicObserver.Notifier {
 			ShowWithActivation = config.ShowWithActivation;
 			ForeColor = config.ForeColor;
 			BackColor = config.BackColor;
-			CloseCallback = null;
 		}
 
 
@@ -192,6 +194,11 @@ namespace ElectronicObserver.Notifier {
 			config.ForeColor = ForeColor;
 			config.BackColor = BackColor;
 
+		}
+
+
+		public void OnCloseAll() {
+			CloseAll( this, new EventArgs() );
 		}
 
 	}

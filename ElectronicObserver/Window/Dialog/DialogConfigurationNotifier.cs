@@ -13,7 +13,6 @@ using System.Windows.Forms;
 namespace ElectronicObserver.Window.Dialog {
 
 	/// <summary>
-	/// undone
 	/// 通知システムの設定ダイアログを扱います。
 	/// </summary>
 	public partial class DialogConfigurationNotifier : Form {
@@ -41,8 +40,9 @@ namespace ElectronicObserver.Window.Dialog {
 			IsEnabled.Checked = notifier.IsEnabled;
 
 			PlaysSound.Checked = notifier.PlaysSound;
-			LoopsSound.Checked = notifier.LoopsSound;
 			SoundPath.Text = notifier.SoundPath;
+			SoundVolume.Value = notifier.SoundVolume;
+			LoopsSound.Checked = notifier.LoopsSound;
 
 			DrawsImage.Checked = notifier.DialogData.DrawsImage;
 			ImagePath.Text = notifier.DialogData.ImagePath;
@@ -79,6 +79,9 @@ namespace ElectronicObserver.Window.Dialog {
 				GroupDamage.Visible = false;
 				GroupDamage.Enabled = false;
 			}
+
+
+			DialogOpenSound.Filter = "音楽ファイル|" + string.Join( ";", Utility.MediaPlayer.SupportedExtensions.Select( s => "*." + s ) ) + "|File|*";
 
 		}
 
@@ -231,8 +234,9 @@ namespace ElectronicObserver.Window.Dialog {
 			_notifier.IsEnabled = IsEnabled.Checked;
 
 			_notifier.PlaysSound = PlaysSound.Checked;
-			_notifier.LoopsSound = LoopsSound.Checked;
 			_notifier.DialogData.DrawsImage = DrawsImage.Checked;
+			_notifier.SoundVolume = (int)SoundVolume.Value;
+			_notifier.LoopsSound = LoopsSound.Checked;
 
 			_notifier.ShowsDialog = ShowsDialog.Checked;
 			_notifier.DialogData.TopMost = TopMostFlag.Checked;
@@ -275,6 +279,16 @@ namespace ElectronicObserver.Window.Dialog {
 			_notifier.DialogData.Message = "テスト 通知です。";
 			_notifier.Notify();
 
+		}
+
+		private void SoundPathDirectorize_Click( object sender, EventArgs e ) {
+			if ( !string.IsNullOrWhiteSpace( SoundPath.Text ) ) {
+				try {
+					SoundPath.Text = System.IO.Path.GetDirectoryName( SoundPath.Text );
+				} catch ( Exception ) {
+					// *ぷちっ*
+				}
+			}
 		}
 
 

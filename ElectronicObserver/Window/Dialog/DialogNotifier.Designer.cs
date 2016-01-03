@@ -42,7 +42,6 @@
 			this.Name = "DialogNotifier";
 			this.ShowInTaskbar = false;
 			this.Text = "通知";
-			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DialogNotifier_FormClosed);
 			this.Load += new System.EventHandler(this.DialogNotifier_Load);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.DialogNotifier_Paint);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DialogNotifier_KeyDown);
