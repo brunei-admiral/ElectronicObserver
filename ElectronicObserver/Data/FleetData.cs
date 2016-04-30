@@ -468,6 +468,9 @@ namespace ElectronicObserver.Data {
 
 				case 2:
 					return Calculator.GetSearchingAbility_TinyAutumn( this );
+
+				case 3:
+					return Calculator.GetSearchingAbility_33( this );
 			}
 		}
 
@@ -481,7 +484,7 @@ namespace ElectronicObserver.Data {
 		/// <summary>
 		/// 指定の計算式で、索敵能力を表す文字列を取得します。
 		/// </summary>
-		/// <param name="index">計算式。0-2</param>
+		/// <param name="index">計算式。0-3</param>
 		public string GetSearchingAbilityString( int index ) {
 			switch ( index ) {
 				default:
@@ -495,7 +498,7 @@ namespace ElectronicObserver.Data {
 					return Calculator.GetSearchingAbility_TinyAutumn( this ).ToString();
 
 				case 3:
-					return Calculator.GetSearchingAbility_33( this ).ToString( "F2" );
+					return ( (int)( Calculator.GetSearchingAbility_33( this ) * 100 ) / 100 ).ToString( "F2" );
 			}
 		}
 
@@ -588,7 +591,10 @@ namespace ElectronicObserver.Data {
 				label.Text = "遠征中 " + DateTimeHelper.ToTimeRemainString( timer );
 				label.ImageIndex = (int)ResourceManager.IconContent.FleetExpedition;
 
-				tooltip.SetToolTip( label, string.Format( "{0} : {1}\r\n完了日時 : {2}", KCDatabase.Instance.Mission[fleet.ExpeditionDestination].ID, KCDatabase.Instance.Mission[fleet.ExpeditionDestination].Name, timer ) );
+				tooltip.SetToolTip( label, string.Format( "{0} : {1}\r\n完了日時 : {2}",
+					KCDatabase.Instance.Mission[fleet.ExpeditionDestination].ID,
+					KCDatabase.Instance.Mission[fleet.ExpeditionDestination].Name,
+					DateTimeHelper.TimeToCSVString( timer ) ) );
 
 				return FleetStates.Expedition;
 			}
@@ -615,7 +621,8 @@ namespace ElectronicObserver.Data {
 					label.Text = "泊地修理中 " + DateTimeHelper.ToTimeElapsedString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer );
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetAnchorageRepairing;
 
-					tooltip.SetToolTip( label, string.Format( "開始日時 : {0}", KCDatabase.Instance.Fleet.AnchorageRepairingTimer ) );
+					tooltip.SetToolTip( label, string.Format( "開始日時 : {0}",
+						DateTimeHelper.TimeToCSVString( KCDatabase.Instance.Fleet.AnchorageRepairingTimer ) ) );
 
 					return FleetStates.AnchorageRepairing;
 				}
@@ -623,9 +630,8 @@ namespace ElectronicObserver.Data {
 
 			{	//入渠中
 				long ntime = db.Docks.Values.Max(
-						dock =>
-						{
-							if (dock.State == 1 && fleet.Members.Count((id => id == dock.ShipID)) > 0)
+						dock => {
+							if ( dock.State == 1 && fleet.Members.Count( ( id => id == dock.ShipID ) ) > 0 )
 								return dock.CompletionTime.Ticks;
 							else return 0;
 						}
@@ -633,43 +639,15 @@ namespace ElectronicObserver.Data {
 
 				if ( ntime > 0 ) {	//入渠中
 
-					timer = new DateTime(ntime);
-					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString(timer);
-					label.ForeColor = Color.Crimson;
+					timer = new DateTime( ntime );
+					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
 
-					tooltip.SetToolTip(label, "完了日時 : " + timer);
+					tooltip.SetToolTip( label, "完了日時 : " + DateTimeHelper.TimeToCSVString( timer ) );
 
 					return FleetStates.Docking;
 				}
 
-			}
-
-			//疲労
-			{
-				int cond = fleet.MembersInstance.Min(s => s == null ? 100 : s.Condition);
-
-				if (cond < Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null)
-				{
-
-					timer = (DateTime)fleet.ConditionTime;
-
-
-					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString(timer);
-					label.ForeColor = Color.Crimson;
-
-					if (cond < 20)
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
-					else if (cond < 30)
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
-					else
-						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
-
-
-					tooltip.SetToolTip(label, string.Format("回復目安日時: {0}", timer));
-
-					return FleetStates.Tired;
-				}
 			}
 
 			//未補給
@@ -701,11 +679,32 @@ namespace ElectronicObserver.Data {
 				}
 			}
 
-			//戦意高揚
+			//疲労
 			{
-				int cond = fleet.MembersInstance.Min( s => s == null ? 100 : s.Condition );
+				int cond = fleet.MembersInstance.Min(s => s == null ? 100 : s.Condition);
 
-				if ( cond >= 50 ) {
+				if (cond < Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null)
+				{
+
+					timer = (DateTime)fleet.ConditionTime;
+
+
+					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString(timer);
+					label.ForeColor = Color.Crimson;
+
+					if (cond < 20)
+						label.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
+					else if (cond < 30)
+						label.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
+					else
+						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
+
+
+					tooltip.SetToolTip(label, string.Format("回復目安日時: {0}", timer));
+
+					return FleetStates.Tired;
+
+				} else if ( cond >= 50 ) {		//戦意高揚
 
 					label.Text = "戦意高揚！";
 					label.ImageIndex = (int)ResourceManager.IconContent.ConditionSparkle;
