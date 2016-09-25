@@ -24,7 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.Connection_UpstreamProxyAddress = new System.Windows.Forms.TextBox();
@@ -138,6 +138,8 @@
 			this.label25 = new System.Windows.Forms.Label();
 			this.FormShipGroup_ShowStatusBar = new System.Windows.Forms.CheckBox();
 			this.FormShipGroup_AutoUpdate = new System.Windows.Forms.CheckBox();
+			this.tabPage20 = new System.Windows.Forms.TabPage();
+			this.FormBattle_IsScrollable = new System.Windows.Forms.CheckBox();
 			this.tabPage12 = new System.Windows.Forms.TabPage();
 			this.FormBrowser_ToolMenuDockStyle = new System.Windows.Forms.ComboBox();
 			this.label30 = new System.Windows.Forms.Label();
@@ -210,6 +212,7 @@
 			this.FontSelector = new System.Windows.Forms.FontDialog();
 			this.LayoutFileBrowser = new System.Windows.Forms.OpenFileDialog();
 			this.APIListBrowser = new System.Windows.Forms.OpenFileDialog();
+			this.FormFleet_ShowConditionIcon = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.Connection_UpstreamProxyPort)).BeginInit();
@@ -234,6 +237,7 @@
 			this.tabPage10.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPage13.SuspendLayout();
+			this.tabPage20.SuspendLayout();
 			this.tabPage12.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormBrowser_ZoomRate)).BeginInit();
@@ -880,7 +884,7 @@
 			this.Debug_SealingPanel.Controls.Add(this.Debug_APIListPathSearch);
 			this.Debug_SealingPanel.Location = new System.Drawing.Point(0, 56);
 			this.Debug_SealingPanel.Name = "Debug_SealingPanel";
-			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 261);
+			this.Debug_SealingPanel.Size = new System.Drawing.Size(576, 257);
 			this.Debug_SealingPanel.TabIndex = 1;
 			// 
 			// Debug_APIListPath
@@ -1083,6 +1087,7 @@
 			this.tabControl2.Controls.Add(this.tabPage18);
 			this.tabControl2.Controls.Add(this.tabPage10);
 			this.tabControl2.Controls.Add(this.tabPage13);
+			this.tabControl2.Controls.Add(this.tabPage20);
 			this.tabControl2.Controls.Add(this.tabPage12);
 			this.tabControl2.Controls.Add(this.tabPage14);
 			this.tabControl2.Controls.Add(this.SubWindow_Json);
@@ -1095,6 +1100,7 @@
 			// 
 			// tabPage8
 			// 
+			this.tabPage8.Controls.Add(this.FormFleet_ShowConditionIcon);
 			this.tabPage8.Controls.Add(this.FormFleet_EquipmentLevelVisibility);
 			this.tabPage8.Controls.Add(this.label28);
 			this.tabPage8.Controls.Add(this.FormFleet_BlinkAtCompletion);
@@ -1580,6 +1586,28 @@
 			this.FormShipGroup_AutoUpdate.Text = "自動更新する";
 			this.ToolTipInfo.SetToolTip(this.FormShipGroup_AutoUpdate, "艦船データを自動更新するかを指定します。\r\n");
 			this.FormShipGroup_AutoUpdate.UseVisualStyleBackColor = true;
+			// 
+			// tabPage20
+			// 
+			this.tabPage20.Controls.Add(this.FormBattle_IsScrollable);
+			this.tabPage20.Location = new System.Drawing.Point(4, 22);
+			this.tabPage20.Name = "tabPage20";
+			this.tabPage20.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage20.Size = new System.Drawing.Size(562, 260);
+			this.tabPage20.TabIndex = 10;
+			this.tabPage20.Text = "戦闘";
+			this.tabPage20.UseVisualStyleBackColor = true;
+			// 
+			// FormBattle_IsScrollable
+			// 
+			this.FormBattle_IsScrollable.AutoSize = true;
+			this.FormBattle_IsScrollable.Location = new System.Drawing.Point(6, 6);
+			this.FormBattle_IsScrollable.Name = "FormBattle_IsScrollable";
+			this.FormBattle_IsScrollable.Size = new System.Drawing.Size(144, 19);
+			this.FormBattle_IsScrollable.TabIndex = 6;
+			this.FormBattle_IsScrollable.Text = "スクロールバーを表示する";
+			this.ToolTipInfo.SetToolTip(this.FormBattle_IsScrollable, "表示エリアがはみ出した場合にスクロールバーを表示するかを指定します。\r\n収まりきった場合は表示しません。");
+			this.FormBattle_IsScrollable.UseVisualStyleBackColor = true;
 			// 
 			// tabPage12
 			// 
@@ -2090,7 +2118,7 @@
 			// 
 			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(3, 302);
+			this.label10.Location = new System.Drawing.Point(3, 298);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(238, 15);
 			this.label10.TabIndex = 5;
@@ -2296,21 +2324,21 @@
             this.BGMPlayer_ColumnContent,
             this.BGMPlayer_ColumnPath,
             this.BGMPlayer_ColumnSetting});
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Meiryo UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.BGMPlayer_ControlGrid.DefaultCellStyle = dataGridViewCellStyle1;
 			this.BGMPlayer_ControlGrid.Location = new System.Drawing.Point(6, 35);
 			this.BGMPlayer_ControlGrid.MultiSelect = false;
 			this.BGMPlayer_ControlGrid.Name = "BGMPlayer_ControlGrid";
 			this.BGMPlayer_ControlGrid.RowHeadersVisible = false;
 			this.BGMPlayer_ControlGrid.RowTemplate.Height = 21;
 			this.BGMPlayer_ControlGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 279);
+			this.BGMPlayer_ControlGrid.Size = new System.Drawing.Size(564, 275);
 			this.BGMPlayer_ControlGrid.TabIndex = 0;
 			this.BGMPlayer_ControlGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BGMPlayer_ControlGrid_CellContentClick);
 			this.BGMPlayer_ControlGrid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.BGMPlayer_ControlGrid_CellFormatting);
@@ -2392,6 +2420,17 @@
 			this.APIListBrowser.Filter = "Text File|*.txt|File|*";
 			this.APIListBrowser.Title = "API リストを開く";
 			// 
+			// FormFleet_ShowConditionIcon
+			// 
+			this.FormFleet_ShowConditionIcon.AutoSize = true;
+			this.FormFleet_ShowConditionIcon.Location = new System.Drawing.Point(6, 188);
+			this.FormFleet_ShowConditionIcon.Name = "FormFleet_ShowConditionIcon";
+			this.FormFleet_ShowConditionIcon.Size = new System.Drawing.Size(149, 19);
+			this.FormFleet_ShowConditionIcon.TabIndex = 14;
+			this.FormFleet_ShowConditionIcon.Text = "疲労度アイコンを表示する";
+			this.ToolTipInfo.SetToolTip(this.FormFleet_ShowConditionIcon, "疲労度のアイコンを表示するかを指定します。\r\n表示しない場合、背景色で区別されます。");
+			this.FormFleet_ShowConditionIcon.UseVisualStyleBackColor = true;
+			// 
 			// DialogConfiguration
 			// 
 			this.AcceptButton = this.ButtonOK;
@@ -2451,6 +2490,8 @@
 			this.groupBox1.PerformLayout();
 			this.tabPage13.ResumeLayout(false);
 			this.tabPage13.PerformLayout();
+			this.tabPage20.ResumeLayout(false);
+			this.tabPage20.PerformLayout();
 			this.tabPage12.ResumeLayout(false);
 			this.tabPage12.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
@@ -2665,5 +2706,8 @@
 		private System.Windows.Forms.Label label33;
         private System.Windows.Forms.CheckBox silenceFullscreen;
         private System.Windows.Forms.CheckBox Notification_Silencio;
+		private System.Windows.Forms.TabPage tabPage20;
+		private System.Windows.Forms.CheckBox FormBattle_IsScrollable;
+		private System.Windows.Forms.CheckBox FormFleet_ShowConditionIcon;
 	}
 }
