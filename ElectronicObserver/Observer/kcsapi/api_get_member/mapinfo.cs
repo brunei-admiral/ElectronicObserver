@@ -13,7 +13,7 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 
 			KCDatabase db = KCDatabase.Instance;
 
-			foreach ( var elem in data ) {
+			foreach ( var elem in data.api_map_info ) {
 
 				int id = (int)elem.api_id;
 
@@ -22,6 +22,20 @@ namespace ElectronicObserver.Observer.kcsapi.api_get_member {
 				}
 			}
 
+			if ( data.api_air_base() ) {
+				foreach ( var elem in data.api_air_base ) {
+					int id = (int)elem.api_rid;
+
+					if ( db.BaseAirCorps[id] == null ) {
+						var inst = new BaseAirCorpsData();
+						inst.LoadFromResponse( APIName, elem );
+						db.BaseAirCorps.Add( inst );
+
+					} else {
+						db.BaseAirCorps[id].LoadFromResponse( APIName, elem );
+					}
+				}
+			}
 
 			base.OnResponseReceived( (object)data );
 		}
