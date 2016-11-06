@@ -117,27 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="FrameScript" xml:space="preserve">
-    <value>
-try {
-$(document.body).css({visibility:"hidden"});
-$("#flashWrap").css({position:"fixed",left:0,top:0,width:"100%",height:"100%"});
-$("#externalswf").css({visibility:"visible",width:"100%",height:"100%"});
-}
-catch(e) {
-	alert("フレームCSS適用に失敗しました: "+e);
-}</value>
-  </data>
-  <data name="PageScript" xml:space="preserve">
-    <value>
-try {
-$(document.body).css({visibility:"hidden",overflow:"hidden"});
-$(".dmm-ntgnavi").css({display:"none"});
-$("#area-game").css({position:"fixed",left:0,top:0,width:"100%",height:"100%"});
-$("#game_frame").css({visibility:"visible",width:"100%",height:"100%"});
-}
-catch(e) {
-	alert("ページCSS適用に失敗しました: "+e);
-}</value>
-  </data>
 </root>
