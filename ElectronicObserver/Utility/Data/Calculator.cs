@@ -76,7 +76,7 @@ namespace ElectronicObserver.Utility.Data {
 				return 0;
 
 			int category = eq.CategoryType;
-			if ( !AircraftLevelBonus.ContainsKey( category ) )
+			if ( !isAirDefense && !AircraftLevelBonus.ContainsKey( category ) )		// 防空の場合は全航空機が参加する
 				return 0;
 
 			double levelBonus = LevelBonus.ContainsKey( category ) ? LevelBonus[category] : 0;	// 改修レベル補正
@@ -88,8 +88,9 @@ namespace ElectronicObserver.Utility.Data {
 					interceptorBonus = eq.Evasion * 1.5;
 			}
 
-
-			return (int)( ( eq.AA + levelBonus * level + interceptorBonus ) * Math.Sqrt( count ) + Math.Sqrt( AircraftExpTable[aircraftLevel] / 10.0 ) + AircraftLevelBonus[category][aircraftLevel] );
+			return (int)( ( eq.AA + levelBonus * level + interceptorBonus ) * Math.Sqrt( count )
+				+ Math.Sqrt( AircraftExpTable[aircraftLevel] / 10.0 )
+				+ ( AircraftLevelBonus.ContainsKey( category ) ? AircraftLevelBonus[category][aircraftLevel] : 0 ) );
 		}
 
 
@@ -190,7 +191,34 @@ namespace ElectronicObserver.Utility.Data {
 			if ( aircorps == null )
 				return 0;
 
-			return aircorps.Squadrons.Values.Sum( sq => GetAirSuperiority( sq, aircorps.ActionKind == 2 ) );
+			int air = 0;
+			double rate = 1.0;
+
+			foreach ( var sq in aircorps.Squadrons.Values ) {
+				if ( sq == null || sq.State != 1 )
+					continue;
+
+				air += GetAirSuperiority( sq, aircorps.ActionKind == 2 );
+
+				if ( aircorps.ActionKind != 2 )
+					continue;
+
+				// 偵察機補正計算
+				int category = sq.EquipmentInstanceMaster.CategoryType;
+				int losrate = Math.Min( Math.Max( sq.EquipmentInstanceMaster.LOS - 7, 0 ), 2 );		// ~7, 8, 9~
+
+				switch ( category ) {
+					case 10:	// 水上偵察機
+					case 41:	// 大型飛行艇
+						rate = Math.Max( rate, 1.1 + losrate * 0.03 );
+						break;
+					case 9:		// 艦上偵察機
+						rate = Math.Max( rate, 1.2 + losrate * 0.05 );
+						break;
+				}
+			}
+
+			return (int)( air * rate );
 		}
 
 		/// <summary>
@@ -547,10 +575,10 @@ namespace ElectronicObserver.Utility.Data {
 					switch ( eq.CategoryType ) {
 
 						case 24:	// 上陸用舟艇
-							if ( eq.EquipmentID == 166 )	// 陸戦隊
-								tp += 13;
-							else
-								tp += 8;
+							//if ( eq.EquipmentID == 166 )	// 陸戦隊
+							//	tp += 13;
+							//else
+							tp += 8;
 							break;
 						case 30:	// 簡易輸送部材
 							tp += 5;
@@ -559,7 +587,7 @@ namespace ElectronicObserver.Utility.Data {
 							tp += 1;
 							break;
 						case 46:	// 特型内火艇
-							tp += 10;
+							tp += 2;
 							break;
 					}
 				}
@@ -573,6 +601,8 @@ namespace ElectronicObserver.Utility.Data {
 						break;
 					case 3:		// 軽巡洋艦
 						tp += 2;
+						if ( ship.ShipID == 487 )	// 鬼怒改二
+							tp += 8;
 						break;
 					case 5:		// 重巡洋艦
 						tp += 0;
@@ -603,6 +633,50 @@ namespace ElectronicObserver.Utility.Data {
 
 
 			return tp;
+		}
+
+
+		private static readonly Dictionary<int, double> EquipmentExpeditionBonus = new Dictionary<int, double>() {
+			{ 68, 0.05 },	// 大発動艇
+			{ 166, 0.02 },	// 大発戦車
+			{ 167, 0.01 },	// 内火艇
+			{ 193, 0.05 },	//特大発動艇
+		};
+		/// <summary>
+		/// 遠征資源の大発ボーナスを取得します。
+		/// </summary>
+		public static double GetExpeditionBonus( FleetData fleet ) {
+			var eqs = fleet.MembersInstance
+				.Where( s => s != null )
+				.SelectMany( s => s.SlotInstance )
+				.Where( eq => eq != null && EquipmentExpeditionBonus.ContainsKey( eq.EquipmentID ) );
+
+			double normalBonus = eqs.Sum( eq => EquipmentExpeditionBonus[eq.EquipmentID] )
+				+ fleet.MembersInstance.Count( s => s != null && s.ShipID == 487 ) * 0.05;		// 鬼怒改二
+
+			normalBonus = Math.Min( normalBonus, 0.2 );
+			double levelBonus = eqs.Any() ? ( 0.01 * normalBonus * eqs.Average( eq => eq.Level ) ) : 0;
+
+			int tokuCount = eqs.Count( eq => eq.EquipmentID == 193 );
+			int daihatsuCount = eqs.Count( eq => eq.EquipmentID == 68 );
+			double tokuBonus;
+
+			if ( tokuCount <= 2 )
+				tokuBonus = 0.02 * tokuCount;
+			else if ( tokuCount == 3 )
+				tokuBonus = 0.05 + 0.002 * Math.Min( Math.Max( daihatsuCount - 1, 0 ), 2 );
+			else {
+				if ( daihatsuCount <= 2 )
+					tokuBonus = 0.054 + 0.002 * daihatsuCount;
+				else if ( daihatsuCount == 3 )
+					tokuBonus = 0.059;
+				else
+					tokuBonus = 0.060;
+			}
+
+			// 厳密には tokuBonus は別の補正として扱われるが気にしないことにする
+
+			return normalBonus + levelBonus + tokuBonus;
 		}
 
 
@@ -980,6 +1054,14 @@ namespace ElectronicObserver.Utility.Data {
 				case 418:	//皐月改二
 					if ( aagun_concentrated >= 1 )
 						return 18;
+					break;
+
+				case 487:	//鬼怒改二
+					if ( aagun_concentrated >= 1 ) {
+						if ( highangle - highangle_director >= 1 )
+							return 19;
+						return 20;
+					}
 					break;
 			}
 
