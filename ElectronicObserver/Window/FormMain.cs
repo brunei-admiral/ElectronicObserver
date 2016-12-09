@@ -37,6 +37,8 @@ namespace ElectronicObserver.Window {
 		/// </summary>
 		private int _volumeUpdateState = 0;
 
+		private DateTime _prevPlayTimeRecorded = DateTime.MinValue;
+
 		#endregion
 
 
@@ -129,6 +131,7 @@ namespace ElectronicObserver.Window {
 			StripMenu_Tool_ResourceChart.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormResourceChart];
 			StripMenu_Tool_AlbumMasterShip.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAlbumShip];
 			StripMenu_Tool_AlbumMasterEquipment.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAlbumEquipment];
+			StripMenu_Tool_AntiAirDefense.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.FormAntiAirDefense];
 
 			StripMenu_Help_Version.Image = ResourceManager.Instance.Icons.Images[(int)ResourceManager.IconContent.AppIcon];
 			#endregion
@@ -184,6 +187,8 @@ namespace ElectronicObserver.Window {
 					Utility.Logger.Add( 3, "API読み込みに失敗しました。" + ex.Message );
 				}
 			}
+
+			APIObserver.Instance.ResponseReceived += ( a, b ) => UpdatePlayTime();
 
 
 			// 🎃
@@ -368,6 +373,8 @@ namespace ElectronicObserver.Window {
 
 			fBrowser.CloseBrowser();
 
+			UpdatePlayTime();
+
 
 			SystemEvents.OnSystemShuttingDown();
 
@@ -477,17 +484,6 @@ namespace ElectronicObserver.Window {
 
 					MainDockPanel.LoadFromXml( stream, new DeserializeDockContent( GetDockContentFromPersistString ) );
 
-
-					foreach ( var p in MainDockPanel.Panes ) {
-						if ( p.Contents.Count > 1 ) {
-							foreach ( var x in p.Contents ) {
-								if ( x.DockHandler.DockState != DockState.Hidden ) {
-									x.DockHandler.Activate();
-									break;
-								}
-							}
-						}
-					}
 
 					fWindowCapture.AttachAll();
 
@@ -625,6 +621,8 @@ namespace ElectronicObserver.Window {
 		}
 
 		private void StripMenu_File_Configuration_Click( object sender, EventArgs e ) {
+
+			UpdatePlayTime();
 
 			using ( var dialog = new DialogConfiguration( Utility.Configuration.Config ) ) {
 				if ( dialog.ShowDialog( this ) == System.Windows.Forms.DialogResult.OK ) {
@@ -1162,6 +1160,13 @@ namespace ElectronicObserver.Window {
 
 		}
 
+		private void StripMenu_Tool_AntiAirDefense_Click( object sender, EventArgs e ) {
+
+			new Dialog.DialogAntiAirDefense().Show( this );
+
+		}
+
+
 
 
 		private void StripMenu_File_Layout_LockLayout_Click( object sender, EventArgs e ) {
@@ -1195,6 +1200,22 @@ namespace ElectronicObserver.Window {
 		private void StripMenu_WindowCapture_DetachAll_Click( object sender, EventArgs e ) {
 			fWindowCapture.DetachAll();
 		}
+
+
+
+		private void UpdatePlayTime() {
+			var c =  Utility.Configuration.Config.Log;
+			DateTime now = DateTime.Now;
+
+			double span = ( now - _prevPlayTimeRecorded ).TotalSeconds;
+			if ( span < c.PlayTimeIgnoreInterval ) {
+				c.PlayTime += span;
+			}
+
+			_prevPlayTimeRecorded = now;
+		}
+
+
 
 
 		#region フォーム表示
@@ -1285,8 +1306,7 @@ namespace ElectronicObserver.Window {
 
 		#endregion
 
-
-
+		
 
 
 

@@ -476,6 +476,9 @@ namespace ElectronicObserver.Data {
 
 				case 3:
 					return Calculator.GetSearchingAbility_33( this );
+
+				case 4:
+					return Calculator.GetSearchingAbility_New33( this, 1 );
 			}
 		}
 
@@ -504,6 +507,9 @@ namespace ElectronicObserver.Data {
 
 				case 3:
 					return ( Math.Floor( Calculator.GetSearchingAbility_33( this ) * 100 ) / 100 ).ToString( "F2" );
+
+				case 4:
+					return ( Math.Floor( Calculator.GetSearchingAbility_New33( this, 1 ) * 100 ) / 100 ).ToString( "F2" );
 			}
 		}
 
@@ -554,7 +560,6 @@ namespace ElectronicObserver.Data {
 
 			//初期化
 			tooltip.SetToolTip( label, null );
-			label.ForeColor = Color.Black;	// XXX TODO
 			label.BackColor = Color.Transparent;
 
 
@@ -566,6 +571,29 @@ namespace ElectronicObserver.Data {
 
 				return FleetStates.NoShip;
 			}
+
+			{	//入渠中
+				long ntime = db.Docks.Values.Max(
+						dock => {
+							if ( dock.State == 1 && fleet.Members.Count( ( id => id == dock.ShipID ) ) > 0 )
+								return dock.CompletionTime.Ticks;
+							else return 0;
+						}
+						);
+
+				if ( ntime > 0 ) {	//入渠中
+
+					timer = new DateTime( ntime );
+					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
+					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
+
+					tooltip.SetToolTip( label, "完了日時 : " + DateTimeHelper.TimeToCSVString( timer ) );
+
+					return FleetStates.Docking;
+				}
+
+			}
+
 
 			if ( fleet.IsInSortie ) {
 
@@ -589,6 +617,7 @@ namespace ElectronicObserver.Data {
 
 			}
 
+
 			//遠征中
 			if ( fleet.ExpeditionState != 0 ) {
 
@@ -610,7 +639,6 @@ namespace ElectronicObserver.Data {
 			 ) > 0 ) {
 
 				label.Text = "大破艦あり！";
-				label.ForeColor = Color.Crimson;
 				label.ImageIndex = (int)ResourceManager.IconContent.FleetDamaged;
 				//label.BackColor = Color.LightCoral;
 
@@ -656,28 +684,6 @@ namespace ElectronicObserver.Data {
 				}
 			}
 
-			{	//入渠中
-				long ntime = db.Docks.Values.Max(
-						dock => {
-							if ( dock.State == 1 && fleet.Members.Count( ( id => id == dock.ShipID ) ) > 0 )
-								return dock.CompletionTime.Ticks;
-							else return 0;
-						}
-						);
-
-				if ( ntime > 0 ) {	//入渠中
-
-					timer = new DateTime( ntime );
-					label.Text = "入渠中 " + DateTimeHelper.ToTimeRemainString( timer );
-					label.ImageIndex = (int)ResourceManager.IconContent.FleetDocking;
-
-					tooltip.SetToolTip( label, "完了日時 : " + DateTimeHelper.TimeToCSVString( timer ) );
-
-					return FleetStates.Docking;
-				}
-
-			}
-
 			//未補給
 			{
 				int fuel = fleet.MembersInstance.Sum( ship => ship == null ? 0 : (int)( ( ship.FuelMax - ship.Fuel ) * ( ship.IsMarried ? 0.85 : 1.00 ) ) );
@@ -698,7 +704,6 @@ namespace ElectronicObserver.Data {
 				if ( fuel > 0 || ammo > 0 || bauxite > 0 ) {
 
 					label.Text = "未補給";
-					label.ForeColor = Color.Crimson;
 					label.ImageIndex = (int)ResourceManager.IconContent.FleetNotReplenished;
 
 					tooltip.SetToolTip( label, string.Format( "燃 : {0}\r\n弾 : {1}\r\nボ : {2} ({3}機)", fuel, ammo, bauxite, aircraft ) );
@@ -709,28 +714,27 @@ namespace ElectronicObserver.Data {
 
 			//疲労
 			{
-				int cond = fleet.MembersInstance.Min(s => s == null ? 100 : s.Condition);
+				int cond = fleet.MembersInstance.Min( s => s == null ? 100 : s.Condition );
 
-				if (cond < Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null)
-				{
+				if ( cond < Configuration.Config.Control.ConditionBorder && fleet.ConditionTime != null ) {
 
 					timer = (DateTime)fleet.ConditionTime;
 
 
-					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString(timer);
-					label.ForeColor = Color.Crimson;
+					label.Text = "疲労 " + DateTimeHelper.ToTimeRemainString( timer );
 
-					if (cond < 20)
+					if ( cond < 20 )
 						label.ImageIndex = (int)ResourceManager.IconContent.ConditionVeryTired;
-					else if (cond < 30)
+					else if ( cond < 30 )
 						label.ImageIndex = (int)ResourceManager.IconContent.ConditionTired;
 					else
 						label.ImageIndex = (int)ResourceManager.IconContent.ConditionLittleTired;
 
 
-					tooltip.SetToolTip(label, string.Format("回復目安日時: {0}", timer));
+					tooltip.SetToolTip( label, string.Format( "回復目安日時: {0}", DateTimeHelper.TimeToCSVString( timer ) ) );
 
 					return FleetStates.Tired;
+
 
 				} else if ( cond >= 50 ) {		//戦意高揚
 
