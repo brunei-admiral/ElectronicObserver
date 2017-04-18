@@ -647,6 +647,11 @@ namespace ElectronicObserver.Utility {
 				/// </summary>
 				public int FixedShipNameWidth { get; set; }
 
+				/// <summary>
+				/// 制空戦力を範囲表示するか
+				/// </summary>
+				public bool ShowAirSuperiorityRange { get; set; }
+
 				public ConfigFormFleet() {
 					ShowAircraft = true;
 					SearchingAbilityMethod = 4;
@@ -661,6 +666,7 @@ namespace ElectronicObserver.Utility {
 					BlinkAtCompletion = true;
 					ShowConditionIcon = true;
 					FixedShipNameWidth = 40;
+					ShowAirSuperiorityRange = false;
 				}
 			}
 			/// <summary>[艦隊]ウィンドウ</summary>
@@ -1565,7 +1571,7 @@ namespace ElectronicObserver.Utility {
 
 						Directory.CreateDirectory( defaultRecordPath );
 
-						ElectronicObserver.Resource.ResourceManager.CopyFromArchive( "Record/" + currentRecord.FileName, Path.Combine( defaultRecordPath, currentRecord.FileName ) );
+						ElectronicObserver.Resource.ResourceManager.CopyDocumentFromArchive( "Record/" + currentRecord.FileName, Path.Combine( defaultRecordPath, currentRecord.FileName ) );
 
 						var defaultRecord = new ShipParameterRecord();
 						defaultRecord.Load( defaultRecordPath );
