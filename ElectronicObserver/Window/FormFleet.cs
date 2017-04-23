@@ -7,6 +7,7 @@ using ElectronicObserver.Utility.Mathematics;
 using ElectronicObserver.Window.Control;
 using ElectronicObserver.Window.Dialog;
 using ElectronicObserver.Window.Support;
+using SwfExtractor;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -200,11 +201,7 @@ namespace ElectronicObserver.Window {
 					double probStart = fleet.GetContactProbability();
 					var probSelect = fleet.GetContactSelectionProbability();
 
-					sb.AppendFormat( "(旧)2-5式: {0}\r\n2-5式(秋): {1}\r\n2-5新秋簡易式: {2}\r\n判定式(33): {3}\r\n新判定式(33):\r\n　分岐点係数1: {4:f2}\r\n　分岐点係数3: {5:f2}\r\n　分岐点係数4: {6:f2}\r\n\r\n触接開始率: \r\n　確保 {7:p1} / 優勢 {8:p1}\r\n",
-						fleet.GetSearchingAbilityString( 0 ),
-						fleet.GetSearchingAbilityString( 1 ),
-						fleet.GetSearchingAbilityString( 2 ),
-						fleet.GetSearchingAbilityString( 3 ),
+					sb.AppendFormat( "新判定式(33):\r\n　分岐点係数1: {0:f2}\r\n　分岐点係数3: {1:f2}\r\n　分岐点係数4: {2:f2}\r\n\r\n触接開始率: \r\n　確保 {3:p1} / 優勢 {4:p1}\r\n",
 						Math.Floor( Calculator.GetSearchingAbility_New33( fleet, 1 ) * 100 ) / 100,
 						Math.Floor( Calculator.GetSearchingAbility_New33( fleet, 3 ) * 100 ) / 100,
 						Math.Floor( Calculator.GetSearchingAbility_New33( fleet, 4 ) * 100 ) / 100,
@@ -1040,6 +1037,13 @@ namespace ElectronicObserver.Window {
 		}
 
 
+		private void ContextMenuFleet_OutputFleetImage_Click( object sender, EventArgs e ) {
+
+			using ( var dialog = new DialogFleetImageGenerator( FleetID ) ) {
+				dialog.ShowDialog( this );
+			}
+		}
+
 
 
 		void ConfigurationChanged() {
@@ -1109,7 +1113,6 @@ namespace ElectronicObserver.Window {
 		protected override string GetPersistString() {
 			return "Fleet #" + FleetID.ToString();
 		}
-
 
 
 	}
