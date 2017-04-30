@@ -169,6 +169,15 @@ namespace ElectronicObserver.Data {
 					ShortenConditionTimer();
 					break;
 
+				case "api_req_hensei/preset_select":
+					base.LoadFromResponse(apiname, (object)data);
+
+					Name = (string)RawData.api_name;
+					_members = (int[])RawData.api_ship;
+
+					SetConditionTimer();
+					break;
+
 				default:	//checkme
 					base.LoadFromResponse( apiname, (object)data );
 
@@ -263,7 +272,6 @@ namespace ElectronicObserver.Data {
 
 
 					} break;
-
 
 				case "api_req_kousyou/destroyship": {
 						int shipID = int.Parse( data["api_ship_id"] );
