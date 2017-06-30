@@ -92,7 +92,9 @@ namespace ElectronicObserver.Data {
 							Fleets[id].LoadFromResponse( apiname, data );
 						}
 
-					} break;
+						UpdateConditionPrediction();
+					}
+					break;
 
 				default:
 					base.LoadFromResponse( apiname, (object)data );

@@ -159,7 +159,6 @@ namespace ElectronicObserver.Data {
 					Name = (string)RawData.api_name;
 					_members = (int[])RawData.api_ship;
 
-					SetConditionTimer();
 					break;
 
 				default:	//checkme
