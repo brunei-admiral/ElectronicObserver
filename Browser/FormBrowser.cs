@@ -1050,10 +1050,11 @@ namespace Browser {
 				try {
 					using ( var img = new Bitmap( _lastScreenShotPath ) ) {
 						Clipboard.SetImage( img );
+						AddLog( 2, string.Format( "スクリーンショット {0} をクリップボードにコピーしました。", _lastScreenShotPath ) );
 					}
 				} catch ( Exception ex ) {
 					BrowserHost.AsyncRemoteRun( () =>
-						BrowserHost.Proxy.SendErrorReport( ex.ToString(), "スクリーンショットのクリップボードへのコピーに失敗しました。" ) );
+						BrowserHost.Proxy.SendErrorReport( ex.Message, "スクリーンショットのクリップボードへのコピーに失敗しました。" ) );
 				}
 			}
 		}

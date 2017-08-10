@@ -33,6 +33,9 @@ namespace ElectronicObserver.Data {
 		/// <summary> 更新直前に泊地修理が可能だったか </summary>
 		private Dictionary<int, bool> IsAnchorageRepaired;
 
+		/// <summary> 更新直前の入渠艦IDリスト </summary>
+		private HashSet<int> PreviousDockingID;
+
 		// conditions
 		public static readonly TimeSpan ConditionHealingSpan = TimeSpan.FromSeconds( 180 );
 		private double ConditionPredictMin;
@@ -187,7 +190,7 @@ namespace ElectronicObserver.Data {
 				if ( IsAnchorageRepaired.ContainsKey( f.FleetID ) && !IsAnchorageRepaired[f.FleetID] )
 					continue;
 
-				var prev = f.Members.Select( id => PreviousShips[id] ).ToArray();
+				var prev = f.Members.Select( id => PreviousDockingID.Contains( id ) ? null : PreviousShips[id] ).ToArray();
 				var now = f.MembersInstance.ToArray();
 
 				for ( int i = 0; i < prev.Length; i++ ) {
@@ -219,6 +222,7 @@ namespace ElectronicObserver.Data {
 
 			PreviousShips = new IDDictionary<ShipData>( KCDatabase.Instance.Ships.Values );
 			IsAnchorageRepaired = Fleets.ToDictionary( f => f.Key, f => f.Value.CanAnchorageRepair );
+			PreviousDockingID = new HashSet<int>( KCDatabase.Instance.Docks.Values.Select( d => d.ShipID ) );
 		}
 
 
@@ -229,8 +233,6 @@ namespace ElectronicObserver.Data {
 
 			var now = DateTime.Now;
 
-			AddConditionDebugLog( "Cond-Update: Now: " + DateTimeHelper.TimeToCSVString( now ) );
-
 			var conditionDiff = PreviousShips.Where( s => s.Value.Condition < 49 )
 				.Join( KCDatabase.Instance.Ships.Values, pair => pair.Key, ship => ship.ID, ( pair, ship ) => ship.Condition - pair.Value.Condition );
 			if ( !conditionDiff.Any() ) {
@@ -239,9 +241,6 @@ namespace ElectronicObserver.Data {
 
 			int healed = (int)Math.Ceiling( conditionDiff.Max() / 3.0 );
 			int predictedHealLow = (int)Math.Floor( ( now - LastConditionUpdated ).TotalSeconds / ConditionHealingSpan.TotalSeconds );
-
-			AddConditionDebugLog( "Cond-Update: Healed: " + conditionDiff.Max() + " / " + healed );
-			AddConditionDebugLog( "Cond-Update: PredictHealLow: " + predictedHealLow );
 
 
 			if ( healed < predictedHealLow ) {
@@ -301,7 +300,6 @@ namespace ElectronicObserver.Data {
 					ConditionPredictMin = bmin;
 				else {
 					ConditionPredictMin = newPredictMin;     // 空集合; 新しいほうを設定
-					AddConditionDebugLog( "Cond-Update: empty-start: " + newPredictMin );
 				}
 
 				if ( endsWithBpre )
@@ -312,14 +310,11 @@ namespace ElectronicObserver.Data {
 					ConditionPredictMax = bmax;
 				else {
 					ConditionPredictMax = newPredictMax;     // 空集合; 新しいほうを設定
-					AddConditionDebugLog( "Cond-Update: empty-end: " + newPredictMax );
 				}
 			}
 
 
-
 LabelFinally:
-			AddConditionDebugLog( "Cond-Update: Accuracy: " + ConditionBorderAccuracy );
 			LastConditionUpdated = now;
 
 			foreach ( var f in Fleets.Values )
@@ -351,20 +346,11 @@ LabelFinally:
 
 			var offset = firstHeal + afterHeal;
 
-			
-			AddConditionDebugLog( "Cond-Heal: offset: " + DateTimeHelper.ToTimeElapsedString( offset ) );
 
 			return LastConditionUpdated + offset;
 
 		}
 
-
-		private void AddConditionDebugLog( string str ) {
-			if ( Utility.Configuration.Config.Debug.EnableDebugMenu ) {
-				Utility.Logger.Add( 1, str );
-			}
-		}
-	
 	}
 
 }
